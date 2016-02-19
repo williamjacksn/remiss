@@ -1,18 +1,15 @@
 import flask
 import os
 
-SLACK_TEAM_NAME = os.environ.get('SLACK_TEAM_NAME')
+SLACK_FRIENDLY_NAME = os.environ.get('SLACK_FRIENDLY_NAME')
+SLACK_SUBDOMAIN = os.environ.get('SLACK_SUBDOMAIN')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
 
 app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    if SLACK_TEAM_NAME is None:
-        return 'You need to set the \'SLACK_TEAM_NAME\' environment variable.'
-    if SLACK_TOKEN is None:
-        return 'You need to set the \'SLACK_TOKEN\' environment variable.'
-    return 'This is where you put your email address.'
+    return flask.render_template('index.html', slack_friendly_name=SLACK_FRIENDLY_NAME)
 
 @app.route('/invite', methods=['POST'])
 def invite():
