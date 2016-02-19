@@ -1,6 +1,7 @@
 import flask
 import json
 import os
+import pprint
 import urllib.parse
 import urllib.request
 
@@ -12,6 +13,13 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
+    url = 'https://slack.com/api/team.info'
+    params = {'token': SLACK_TOKEN}
+    data = urllib.parse.urlencode(params).encode()
+    response = urllib.request.urlopen(url, data=data)
+    body = response.read().decode()
+    j = json.loads(body)
+    return pprint.pformat(j)
     return flask.render_template('index.html', slack_friendly_name=SLACK_FRIENDLY_NAME)
 
 @app.route('/invite', methods=['POST'])
