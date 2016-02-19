@@ -18,7 +18,7 @@ def index():
     body = response.read().decode()
     j = json.loads(body)
     team_name = j['team']['name']
-    team_icon = j['team']['icon']['image_132]
+    team_icon = j['team']['icon']['image_132']
     return flask.render_template('index.html', slack_friendly_name=team_name)
 
 @app.route('/invite', methods=['POST'])
