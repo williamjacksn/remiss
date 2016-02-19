@@ -5,8 +5,6 @@ import pprint
 import urllib.parse
 import urllib.request
 
-SLACK_FRIENDLY_NAME = os.environ.get('SLACK_FRIENDLY_NAME')
-SLACK_SUBDOMAIN = os.environ.get('SLACK_SUBDOMAIN')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
 
 app = flask.Flask(__name__)
@@ -19,13 +17,14 @@ def index():
     response = urllib.request.urlopen(url, data=data)
     body = response.read().decode()
     j = json.loads(body)
-    return pprint.pformat(j)
-    return flask.render_template('index.html', slack_friendly_name=SLACK_FRIENDLY_NAME)
+    team_name = j['team']['name']
+    team_icon = j['team']['icon']['image_132]
+    return flask.render_template('index.html', slack_friendly_name=team_name)
 
 @app.route('/invite', methods=['POST'])
 def invite():
     email = flask.request.form['email']
-    url = 'https://{}.slack.com/api/users.admin.invite'.format(SLACK_SUBDOMAIN)
+    url = 'https://slack.com/api/users.admin.invite'
     params = {'email': email, 'token': SLACK_TOKEN, 'set_active': 'true'}
     data = urllib.parse.urlencode(params).encode()
     response = urllib.request.urlopen(url, data=data)
