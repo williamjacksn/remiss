@@ -12,7 +12,12 @@ def index():
         return 'You need to set the \'SLACK_TEAM_NAME\' environment variable.'
     if SLACK_TOKEN is None:
         return 'You need to set the \'SLACK_TOKEN\' environment variable.'
-    return 'https://{}.slack.com/api/users.admin.invite'.format(SLACK_TEAM_NAME)
+    return 'This is where you put your email address.'
+
+@app.route('/invite', methods=['POST'])
+def invite():
+    email = flask.request.form['email']
+    return 'This is the part where I send an invitation to {}.'.format(email)
 
 def main():
     app.run()
