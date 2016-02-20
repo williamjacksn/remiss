@@ -32,7 +32,9 @@ def invite():
     response = urllib.request.urlopen(url, data=data)
     body = response.read().decode()
     j = json.loads(body)
-    return json.dumps(j, indent=2, sort_keys=True)
+    if j['ok']:
+        return flask.render_template('success.html', j=j)
+    return flask.render_template('failure.html',  j=j)
 
 
 def main():
