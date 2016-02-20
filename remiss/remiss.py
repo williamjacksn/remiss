@@ -1,13 +1,13 @@
 import flask
 import json
 import os
-import pprint
 import urllib.parse
 import urllib.request
 
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
 
 app = flask.Flask(__name__)
+
 
 @app.route('/')
 def index():
@@ -19,12 +19,14 @@ def index():
     j = json.loads(body)
     team_name = j['team']['name']
     team_icon = j['team']['icon']['image_132']
-    return flask.render_template('index.html', slack_friendly_name=team_name)
+    return flask.render_template('index.html', team_name=team_name,
+                                 team_icon=team_icon)
+
 
 @app.route('/invite', methods=['POST'])
 def invite():
-    email = flask.request.form['email']
     url = 'https://slack.com/api/users.admin.invite'
+    email = flask.request.form['email']
     params = {'email': email, 'token': SLACK_TOKEN, 'set_active': 'true'}
     data = urllib.parse.urlencode(params).encode()
     response = urllib.request.urlopen(url, data=data)
@@ -32,8 +34,9 @@ def invite():
     j = json.loads(body)
     return json.dumps(j, indent=2, sort_keys=True)
 
+
 def main():
-    app.run()
+    app.run(debug=True)
 
 if __name__ == '__main__':
     main()

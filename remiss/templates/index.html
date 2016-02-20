@@ -3,14 +3,28 @@
 <html>
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-        <title>Request an invitation to the {{ slack_friendly_name }} Slack team</title>
+        <title>Join {{ team_name }} on Slack</title>
+        <style type="text/css">
+            form {
+                width: 400px;
+                margin: auto;
+                text-align: center;
+            }
+            .button {
+                margin-top: 10px;
+                width: 250px;
+            }
+            .textbox {
+                width: 250px;
+            }
+        </style>
     </head>
     <body>
-        <h1>Join {{ slack_friendly_name }} on Slack</h1>
         <form action="invite" method="post">
-            <label for="email">Email address:</label>
-            <input type="email" id="email" name="email">
-            <input type="submit" value="Request an invitation">
+            <img src="{{ team_icon }}">
+            <h1>Join {{ team_name }} on Slack</h1>
+            <input type="email" id="email" name="email" placeholder="email@example.com" autofocus class="textbox"><br>
+            <input type="submit" value="Request an invitation" class="button">
         </form>
     </body>
 </html>
